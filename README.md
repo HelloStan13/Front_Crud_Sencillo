@@ -22,7 +22,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 - Cambios de Estilos en Botones, form y checkbox.
 
 ## Video 
-https://loom.com/share/571fe574889047beab04ea87f7c37230
+https://www.loom.com/share/571fe574889047beab04ea87f7c37230
 
 
 ### Contacto
