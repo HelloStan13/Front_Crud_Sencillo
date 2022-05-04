@@ -5,9 +5,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ff9d4d, #969696);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ff9538, #bbbbbb); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
-
+h1{
+  text-align: center;
+  color: #281400;
+  font-size: 60px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

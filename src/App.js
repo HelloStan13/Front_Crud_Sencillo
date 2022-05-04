@@ -11,14 +11,16 @@ const Form = () => {
   const formRef = useRef(null);
   const { dispatch, state: { todo } } = useContext(Store);
   const item = todo.item;
-  const [state, setState] = useState(item);
+  const [name, setName] = useState(item);
+  const [responsible, setResponsible] = useState(item);
 
   const onAdd = (event) => {
     event.preventDefault();
 
     const request = {
-      name: state.name,
+      name: name.name,
       id: null,
+      responsible: responsible.responsible,
       completed: false
     };
 
@@ -33,7 +35,8 @@ const Form = () => {
       .then(response => response.json())
       .then((todo) => {
         dispatch({ type: "add-item", item: todo });
-        setState({ name: "" });
+        setName({ name: "" });
+        setResponsible({ responsible: "" });
         formRef.current.reset();
       });
   }
@@ -42,7 +45,8 @@ const Form = () => {
     event.preventDefault();
 
     const request = {
-      name: state.name,
+      name: name.name,
+      responsible: responsible.responsible,
       id: item.id,
       isCompleted: item.isCompleted
     };
@@ -58,23 +62,33 @@ const Form = () => {
       .then(response => response.json())
       .then((todo) => {
         dispatch({ type: "update-item", item: todo });
-        setState({ name: "" });
+        setName({ name: "" });
+        setResponsible({ responsible: "" });
         formRef.current.reset();
       });
-  }
+  }   
 
-  return <form ref={formRef}>
+  return <form className='' ref={formRef}>
     <input
-      className='input-group-text mb-2'
+      className='input-group-text col-md-8 mb-2'
       type="text"
       name="name"
       placeholder="¿Qué piensas hacer hoy?"
       defaultValue={item.name}
       onChange={(event) => {
-        setState({ ...state, name: event.target.value })
+        setName({ ...name, name: event.target.value })
+      }}  ></input>
+       <input
+      className='input-group-text col-md-6 mb-2'
+      type="text"
+      name="responsible"
+      placeholder="Responsable"
+      defaultValue={item.responsible}
+      onChange={(event) => {
+        setResponsible({ ...responsible, responsible: event.target.value })
       }}  ></input>
     {item.id && <button className='btn btn-primary mb-2' onClick={onEdit}>Actualizar</button>}
-    {!item.id && <button className='btn btn-primary mb-2' onClick={onAdd}>Crear</button>}
+    {!item.id && <button className='btn btn-primary mb-2' onClick={onAdd }  >Crear</button>}
   </form>
 }
 
@@ -107,6 +121,7 @@ const List = () => {
   const onChange = (event, todo) => {
     const request = {
       name: todo.name,
+      responsible: todo.responsible,
       id: todo.id,
       completed: event.target.checked
     };
@@ -126,13 +141,15 @@ const List = () => {
   const decorationDone = {
     textDecoration: 'line-through'
   };
-  return <div>
-    <table >
+  return <div >
+    <table className='table table-striped table-hover'>
       <thead>
-        <tr>
+        <tr scope="row">
           <td>ID</td>
           <td>Tarea</td>
+          <td>Responsable</td>
           <td>¿Completado?</td>
+          <td>Acciones</td>
         </tr>
       </thead>
       <tbody>
@@ -140,14 +157,18 @@ const List = () => {
           return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
             <td>{todo.id}</td>
             <td>{todo.name}</td>
+            <td>{todo.responsible}</td>
             <td><input type="checkbox" className='form-check-input mt-0' defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
-            <td><button className='btn btn-danger' onClick={() => onDelete(todo.id)}>Eliminar</button></td>
-            <td><button className='btn btn-primary' onClick={() => onEdit(todo)}>Editar</button></td>
+            <td>
+              <button className='btn btn-danger' onClick={() => onDelete(todo.id)}> Eliminar </button> 
+              <button className='btn btn-primary' onClick={() => onEdit(todo)}> Editar </button>
+            </td>
           </tr>
         })}
       </tbody>
     </table>
   </div>
+
 }
 
 
@@ -200,7 +221,7 @@ const StoreProvider = ({ children }) => {
 
 function App() {
   return <StoreProvider>
-    <h3>To-Do List</h3>
+    <h1 className='text'>To-Do List</h1>
     <Form />
     <List />
   </StoreProvider>
