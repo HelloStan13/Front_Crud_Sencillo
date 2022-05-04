@@ -65,6 +65,7 @@ const Form = () => {
 
   return <form ref={formRef}>
     <input
+      className='input-group-text mb-2'
       type="text"
       name="name"
       placeholder="¿Qué piensas hacer hoy?"
@@ -72,8 +73,8 @@ const Form = () => {
       onChange={(event) => {
         setState({ ...state, name: event.target.value })
       }}  ></input>
-    {item.id && <button onClick={onEdit}>Actualizar</button>}
-    {!item.id && <button onClick={onAdd}>Crear</button>}
+    {item.id && <button className='btn btn-primary mb-2' onClick={onEdit}>Actualizar</button>}
+    {!item.id && <button className='btn btn-primary mb-2' onClick={onAdd}>Crear</button>}
   </form>
 }
 
@@ -139,9 +140,9 @@ const List = () => {
           return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
             <td>{todo.id}</td>
             <td>{todo.name}</td>
-            <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
-            <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
-            <td><button onClick={() => onEdit(todo)}>Editar</button></td>
+            <td><input type="checkbox" className='form-check-input mt-0' defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
+            <td><button className='btn btn-danger' onClick={() => onDelete(todo.id)}>Eliminar</button></td>
+            <td><button className='btn btn-primary' onClick={() => onEdit(todo)}>Editar</button></td>
           </tr>
         })}
       </tbody>
